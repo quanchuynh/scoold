@@ -70,7 +70,7 @@ public class ScooldServer extends SpringBootServletInitializer {
 	}
 
 	public static final String LOCALE_COOKIE = Config.getRootAppIdentifier() + "-locale";
-	public static final String CSRF_COOKIE = Config.getRootAppIdentifier() + "-csrf";
+	public static final String CSRF_COOKIE = (Config.getRootAppIdentifier()  + "-csrf").replaceAll("\"", "");
 	public static final String SPACE_COOKIE = Config.getRootAppIdentifier() + "-space";
 	public static final String TOKEN_PREFIX = "ST_";
 	public static final String HOMEPAGE = "/";

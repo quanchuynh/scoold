@@ -17,12 +17,14 @@
  */
 package com.erudika.scoold.utils;
 
+import com.erudika.para.client.Config;
+import com.erudika.para.client.Pager;
+/* Server side code */
 import com.erudika.para.client.ParaClient;
-import com.erudika.para.core.Translation;
-import com.erudika.para.core.Sysprop;
-import com.erudika.para.utils.Config;
-import com.erudika.para.utils.Pager;
-import com.erudika.para.utils.Utils;
+import com.erudika.para.client.Sysprop;
+import com.erudika.para.client.Translation;
+import com.erudika.para.client.Utils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

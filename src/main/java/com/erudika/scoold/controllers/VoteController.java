@@ -19,9 +19,14 @@ package com.erudika.scoold.controllers;
  */
 
 import com.erudika.para.client.ParaClient;
-import com.erudika.para.core.ParaObject;
-import com.erudika.para.core.Votable;
-import com.erudika.para.core.Vote;
+import com.erudika.para.client.ParaObject;
+import com.erudika.para.client.Votable;
+import com.erudika.para.client.Vote;
+
+import com.erudika.para.client.Votable.VoteValue;
+import static com.erudika.para.client.Votable.VoteValue.DOWN;
+import static com.erudika.para.client.Votable.VoteValue.UP;
+
 import static com.erudika.scoold.ScooldServer.ANSWER_VOTEUP_REWARD_AUTHOR;
 import static com.erudika.scoold.ScooldServer.CRITIC_IFHAS;
 import static com.erudika.scoold.ScooldServer.GOODANSWER_IFHAS;

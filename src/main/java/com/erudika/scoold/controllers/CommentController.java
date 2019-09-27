@@ -17,12 +17,12 @@
  */
 package com.erudika.scoold.controllers;
 
+import com.erudika.para.client.Config;
 import com.erudika.para.client.ParaClient;
-import com.erudika.para.core.User;
-import com.erudika.para.core.utils.ParaObjectUtils;
-import com.erudika.para.email.Emailer;
-import com.erudika.para.utils.Config;
-import com.erudika.para.utils.Utils;
+import com.erudika.para.client.ParaObjectUtils;
+import com.erudika.para.client.User;
+import com.erudika.para.client.Utils;
+
 import static com.erudika.scoold.ScooldServer.COMMENTATOR_IFHAS;
 import static com.erudika.scoold.ScooldServer.HOMEPAGE;
 import static com.erudika.scoold.ScooldServer.getServerURL;
@@ -31,6 +31,8 @@ import com.erudika.scoold.core.Post;
 import com.erudika.scoold.core.Profile;
 import static com.erudika.scoold.core.Profile.Badge.COMMENTATOR;
 import static com.erudika.scoold.core.Profile.Badge.DISCIPLINED;
+
+import com.erudika.scoold.utils.Emailer;
 import com.erudika.scoold.utils.ScooldUtils;
 import java.util.Arrays;
 import java.util.HashMap;

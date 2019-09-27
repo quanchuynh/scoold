@@ -17,11 +17,12 @@
  */
 package com.erudika.scoold.controllers;
 
+import com.erudika.para.client.Config;
+import com.erudika.para.client.Pager;
 import com.erudika.para.client.ParaClient;
-import com.erudika.para.core.utils.ParaObjectUtils;
-import com.erudika.para.utils.Config;
-import com.erudika.para.utils.Pager;
-import com.erudika.para.utils.Utils;
+import com.erudika.para.client.ParaObjectUtils;
+import com.erudika.para.client.Utils;
+
 import static com.erudika.scoold.ScooldServer.HOMEPAGE;
 import com.erudika.scoold.core.Profile;
 import static com.erudika.scoold.core.Profile.Badge.REPORTER;

@@ -17,11 +17,12 @@
  */
 package com.erudika.scoold.controllers;
 
-import com.erudika.para.core.Tag;
-import com.erudika.para.utils.Pager;
 import static com.erudika.scoold.ScooldServer.SIGNINLINK;
 import static com.erudika.scoold.ScooldServer.SPACE_COOKIE;
 import static com.erudika.scoold.ScooldServer.TAGSLINK;
+
+import com.erudika.para.client.Pager;
+import com.erudika.para.client.Tag;
 import com.erudika.scoold.core.Profile;
 import static com.erudika.scoold.utils.HttpUtils.getCookieValue;
 import com.erudika.scoold.utils.ScooldUtils;

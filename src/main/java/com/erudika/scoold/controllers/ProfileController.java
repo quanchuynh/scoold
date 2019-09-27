@@ -17,13 +17,16 @@
  */
 package com.erudika.scoold.controllers;
 
-import com.erudika.para.core.User;
-import static com.erudika.para.core.User.Groups.MODS;
-import static com.erudika.para.core.User.Groups.USERS;
-import com.erudika.para.core.utils.ParaObjectUtils;
-import com.erudika.para.utils.Pager;
-import com.erudika.para.utils.Utils;
 import static com.erudika.scoold.ScooldServer.PEOPLELINK;
+
+import com.erudika.para.client.Pager;
+import com.erudika.para.client.ParaObjectUtils;
+import com.erudika.para.client.User;
+import com.erudika.para.client.Utils;
+
+import static com.erudika.para.client.User.Groups.USERS;
+import static com.erudika.para.client.User.Groups.MODS;
+import static com.erudika.para.client.User.Groups.ADMINS;
 import com.erudika.scoold.core.Post;
 import com.erudika.scoold.core.Profile;
 import com.erudika.scoold.core.Profile.Badge;

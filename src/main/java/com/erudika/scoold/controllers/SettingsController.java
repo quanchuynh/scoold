@@ -17,12 +17,13 @@
  */
 package com.erudika.scoold.controllers;
 
-import com.erudika.para.core.Sysprop;
-import com.erudika.para.core.User;
-import com.erudika.para.utils.Config;
-import com.erudika.para.utils.Utils;
 import static com.erudika.scoold.ScooldServer.HOMEPAGE;
 import static com.erudika.scoold.ScooldServer.MAX_FAV_TAGS;
+
+import com.erudika.para.client.Config;
+import com.erudika.para.client.Sysprop;
+import com.erudika.para.client.User;
+import com.erudika.para.client.Utils;
 import com.erudika.scoold.core.Profile;
 import com.erudika.scoold.utils.ScooldUtils;
 import java.util.LinkedHashSet;

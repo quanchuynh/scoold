@@ -15,7 +15,6 @@
  */
 package com.erudika.scoold.velocity;
 
-import com.erudika.para.utils.Config;
 import java.util.Locale;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +32,8 @@ import org.springframework.context.ApplicationContextException;
 import org.springframework.core.NestedIOException;
 import org.springframework.web.servlet.view.AbstractTemplateView;
 import org.springframework.web.util.NestedServletException;
+
+import com.erudika.para.client.Config;
 
 /**
  * View using the Velocity template engine.

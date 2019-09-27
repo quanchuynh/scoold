@@ -17,12 +17,13 @@
  */
 package com.erudika.scoold.controllers;
 
+import com.erudika.para.client.Config;
+import com.erudika.para.client.Pager;
 import com.erudika.para.client.ParaClient;
-import com.erudika.para.core.ParaObject;
-import com.erudika.para.core.Sysprop;
-import com.erudika.para.utils.Config;
-import com.erudika.para.utils.Pager;
-import com.erudika.para.utils.Utils;
+import com.erudika.para.client.ParaObject;
+import com.erudika.para.client.Sysprop;
+import com.erudika.para.client.Utils;
+
 import static com.erudika.scoold.ScooldServer.HOMEPAGE;
 import com.erudika.scoold.core.Profile;
 import com.erudika.scoold.utils.ScooldUtils;
@@ -150,8 +151,8 @@ public class AdminController {
 			ParaObject object = pc.read(id);
 			if (object != null) {
 				pc.delete(object);
-				logger.info("{} #{} deleted {} #{}", authUser.getName(), authUser.getId(),
-						object.getClass().getName(), object.getId());
+//				logger.info("{} #{} deleted {} #{}", authUser.getName(), authUser.getId(),
+//						object.getClass().getName(), object.getId());
 			}
 		}
 		return "redirect:" + ADMINLINK;

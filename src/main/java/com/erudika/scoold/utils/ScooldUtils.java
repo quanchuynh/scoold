@@ -17,17 +17,14 @@
  */
 package com.erudika.scoold.utils;
 
-import com.erudika.para.Para;
+/* Server side code */
+import com.erudika.para.client.Config;
+import com.erudika.para.client.Pager;
 import com.erudika.para.client.ParaClient;
-import com.erudika.para.core.ParaObject;
-import com.erudika.para.core.Sysprop;
-import com.erudika.para.core.User;
-import com.erudika.para.core.utils.ParaObjectUtils;
-import com.erudika.para.email.Emailer;
-import com.erudika.para.utils.Config;
-import com.erudika.para.utils.Pager;
-import com.erudika.para.utils.Utils;
-import com.erudika.para.validation.ValidationUtils;
+import com.erudika.para.client.ParaObject;
+import com.erudika.para.client.User;
+import com.erudika.para.client.Utils;
+/* Client side */
 import static com.erudika.scoold.ScooldServer.*;
 import com.erudika.scoold.core.Comment;
 import com.erudika.scoold.core.Post;
@@ -133,103 +130,104 @@ public final class ScooldUtils {
 			logger.error("No connection to Para backend. Retrying connection in {}s (attempt {} of {})...",
 					retryInterval, count, maxRetries);
 			if (maxRetries < 0 || retryCount < maxRetries) {
-				Para.asyncExecute(new Runnable() {
-					public void run() {
-						try {
-							Thread.sleep(retryInterval * 1000);
-						} catch (InterruptedException ex) {
-							logger.error(null, ex);
-						}
-						retryConnection(callable, count);
-					}
-				});
+//				Para.asyncExecute(new Runnable() {
+//					public void run() {
+//						try {
+//							Thread.sleep(retryInterval * 1000);
+//						} catch (InterruptedException ex) {
+//							logger.error(null, ex);
+//						}
+//						retryConnection(callable, count);
+//					}
+//				});
 			}
 		}
 	}
 
 	public Profile checkAuth(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		Profile authUser = null;
-		if (HttpUtils.getStateParam(Config.AUTH_COOKIE, req) != null &&
-				!StringUtils.endsWithAny(req.getRequestURI(), ".js", ".css", ".svg", ".png", ".jpg")) {
-			User u = pc.me(HttpUtils.getStateParam(Config.AUTH_COOKIE, req));
-			if (u != null && isEmailDomainApproved(u.getEmail())) {
-				authUser = getOrCreateProfile(u, req);
-				boolean update = false;
-				if (!isAdmin(authUser) && isRecognizedAsAdmin(u)) {
-					logger.info("User '{}' with id={} promoted to admin.", u.getName(), authUser.getId());
-					authUser.setGroups(User.Groups.ADMINS.toString());
-					update = true;
-				} else if (isAdmin(authUser) && !isRecognizedAsAdmin(u)) {
-					logger.info("User '{}' with id={} demoted to regular user.", u.getName(), authUser.getId());
-					authUser.setGroups(User.Groups.USERS.toString());
-					update = true;
-				}
-				authUser.setUser(u);
-				if (!StringUtils.equals(u.getPicture(), authUser.getPicture()) &&
-						!StringUtils.contains(authUser.getPicture(), "gravatar.com")) {
-					authUser.setPicture(u.getPicture());
-					update = true;
-				}
-				if (update) {
-					authUser.update();
-				}
-			} else {
-				clearSession(req, res);
-				logger.warn("Attempted signin from an unknown domain: {}", u != null ? u.getEmail() : "unknown");
-				res.setStatus(401);
-			}
-		}
-		initCSRFToken(req, res);
-		return authUser;
+//		Profile authUser = null;
+//		if (HttpUtils.getStateParam(Config.AUTH_COOKIE, req) != null &&
+//				!StringUtils.endsWithAny(req.getRequestURI(), ".js", ".css", ".svg", ".png", ".jpg")) {
+//			User u = pc.me(HttpUtils.getStateParam(Config.AUTH_COOKIE, req));
+//			if (u != null && isEmailDomainApproved(u.getEmail())) {
+//				authUser = getOrCreateProfile(u, req);
+//				boolean update = false;
+//				if (!isAdmin(authUser) && isRecognizedAsAdmin(u)) {
+//					logger.info("User '{}' with id={} promoted to admin.", u.getName(), authUser.getId());
+//					authUser.setGroups(User.Groups.ADMINS.toString());
+//					update = true;
+//				} else if (isAdmin(authUser) && !isRecognizedAsAdmin(u)) {
+//					logger.info("User '{}' with id={} demoted to regular user.", u.getName(), authUser.getId());
+//					authUser.setGroups(User.Groups.USERS.toString());
+//					update = true;
+//				}
+//				authUser.setUser(u);
+//				if (!StringUtils.equals(u.getPicture(), authUser.getPicture()) &&
+//						!StringUtils.contains(authUser.getPicture(), "gravatar.com")) {
+//					authUser.setPicture(u.getPicture());
+//					update = true;
+//				}
+//				if (update) {
+//					authUser.update();
+//				}
+//			} else {
+//				clearSession(req, res);
+//				logger.warn("Attempted signin from an unknown domain: {}", u != null ? u.getEmail() : "unknown");
+//				res.setStatus(401);
+//			}
+//		}
+//		initCSRFToken(req, res);
+//		return authUser;
+		return null; // TODO:
 	}
 
 	private Profile getOrCreateProfile(User u, HttpServletRequest req) {
 		Profile authUser = pc.read(Profile.id(u.getId()));
-		if (authUser == null) {
-			authUser = new Profile(u.getId(), u.getName());
-			authUser.setPicture(u.getPicture());
-			authUser.setAppid(u.getAppid());
-			authUser.setCreatorid(u.getId());
-			authUser.setTimestamp(u.getTimestamp());
-			authUser.setGroups(isRecognizedAsAdmin(u)
-					? User.Groups.ADMINS.toString() : u.getGroups());
-			authUser.create();
-			if (!u.getIdentityProvider().equals("generic")) {
-				sendWelcomeEmail(u, false, req);
-			}
-			logger.info("Created new user '{}' with id={}, groups={}.",
-					u.getName(), authUser.getId(), authUser.getGroups());
-		}
+//		if (authUser == null) {
+//			authUser = new Profile(u.getId(), u.getName());
+//			authUser.setPicture(u.getPicture());
+//			authUser.setAppid(u.getAppid());
+//			authUser.setCreatorid(u.getId());
+//			authUser.setTimestamp(u.getTimestamp());
+//			authUser.setGroups(isRecognizedAsAdmin(u)
+//					? User.Groups.ADMINS.toString() : u.getGroups());
+//			authUser.create();
+//			if (!u.getIdentityProvider().equals("generic")) {
+//				sendWelcomeEmail(u, false, req);
+//			}
+//			logger.info("Created new user '{}' with id={}, groups={}.",
+//					u.getName(), authUser.getId(), authUser.getGroups());
+//		}
 		return authUser;
 	}
 
 	public void sendWelcomeEmail(User user, boolean verifyEmail, HttpServletRequest req) {
 		// send welcome email notification
 		if (user != null) {
-			Map<String, Object> model = new HashMap<String, Object>();
-			Map<String, String> lang = getLang(req);
-			String subject = Utils.formatMessage(lang.get("signin.welcome"), Config.APP_NAME);
-			String body1 = Utils.formatMessage(lang.get("signin.welcome.body1"), Config.APP_NAME)  + "<br><br>";
-			String body2 = lang.get("signin.welcome.body2") + "<br><br>";
-			String body3 = "Best, <br>The Scoold team";
-
-			if (verifyEmail && !user.getActive() && !StringUtils.isBlank(user.getIdentifier())) {
-				Sysprop s = pc.read(user.getIdentifier());
-				if (s != null) {
-					String token = Utils.base64encURL(Utils.generateSecurityToken().getBytes());
-					s.addProperty(Config._EMAIL_TOKEN, token);
-					pc.update(s);
-					token = getServerURL() + CONTEXT_PATH + SIGNINLINK + "/register?id=" + user.getId() + "&token=" + token;
-					body3 = "<b><a href=\"" + token + "\">" + lang.get("signin.welcome.verify") + "</a></b><br><br>";
-					body3 += "Best, <br>The Scoold team<br><br>";
-				}
-			}
-
-			model.put("logourl", Config.getConfigParam("small_logo_url", "https://scoold.com/logo.png"));
-			model.put("heading", Utils.formatMessage(lang.get("signin.welcome.title"), user.getName()));
-			model.put("body", body1 + body2 + body3);
-			emailer.sendEmail(Arrays.asList(user.getEmail()), subject,
-					Utils.compileMustache(model, loadEmailTemplate("notify")));
+//			Map<String, Object> model = new HashMap<String, Object>();
+//			Map<String, String> lang = getLang(req);
+//			String subject = Utils.formatMessage(lang.get("signin.welcome"), Config.APP_NAME);
+//			String body1 = Utils.formatMessage(lang.get("signin.welcome.body1"), Config.APP_NAME)  + "<br><br>";
+//			String body2 = lang.get("signin.welcome.body2") + "<br><br>";
+//			String body3 = "Best, <br>The Scoold team";
+//
+//			if (verifyEmail && !user.getActive() && !StringUtils.isBlank(user.getIdentifier())) {
+//				Sysprop s = pc.read(user.getIdentifier());
+//				if (s != null) {
+//					String token = Utils.base64encURL(Utils.generateSecurityToken().getBytes());
+//					s.addProperty(Config._EMAIL_TOKEN, token);
+//					pc.update(s);
+//					token = getServerURL() + CONTEXT_PATH + SIGNINLINK + "/register?id=" + user.getId() + "&token=" + token;
+//					body3 = "<b><a href=\"" + token + "\">" + lang.get("signin.welcome.verify") + "</a></b><br><br>";
+//					body3 += "Best, <br>The Scoold team<br><br>";
+//				}
+//			}
+//
+//			model.put("logourl", Config.getConfigParam("small_logo_url", "https://scoold.com/logo.png"));
+//			model.put("heading", Utils.formatMessage(lang.get("signin.welcome.title"), user.getName()));
+//			model.put("body", body1 + body2 + body3);
+//			emailer.sendEmail(Arrays.asList(user.getEmail()), subject,
+//					Utils.compileMustache(model, loadEmailTemplate("notify")));
 		}
 	}
 
@@ -246,7 +244,7 @@ public final class ScooldUtils {
 			model.put("logourl", Config.getConfigParam("small_logo_url", "https://scoold.com/logo.png"));
 			model.put("heading", lang.get("hello"));
 			model.put("body", body1 + body2 + body3);
-			emailer.sendEmail(Arrays.asList(email), subject, Utils.compileMustache(model, loadEmailTemplate("notify")));
+//			emailer.sendEmail(Arrays.asList(email), subject, Utils.compileMustache(model, loadEmailTemplate("notify")));
 		}
 	}
 
@@ -264,8 +262,8 @@ public final class ScooldUtils {
 		String csrfInSession = (String) req.getSession(true).getAttribute(TOKEN_PREFIX + "CSRF");
 		//String csrfInCookie = Utils.getStateParam(CSRF_COOKIE, req);
 		if (StringUtils.isBlank(csrfInSession)) {
-			csrfInSession = Utils.generateSecurityToken();
-			req.getSession(true).setAttribute(TOKEN_PREFIX + "CSRF", csrfInSession);
+//			csrfInSession = Utils.generateSecurityToken();
+//			req.getSession(true).setAttribute(TOKEN_PREFIX + "CSRF", csrfInSession);
 		}
 		HttpUtils.setStateParam(CSRF_COOKIE, csrfInSession, req, res);
 	}
@@ -327,9 +325,9 @@ public final class ScooldUtils {
 		Map<String, String> authorids = new HashMap<String, String>(objects.size());
 		Map<String, Profile> authors = new HashMap<String, Profile>(objects.size());
 		for (ParaObject obj : objects) {
-			if (obj.getCreatorid() != null) {
-				authorids.put(obj.getId(), obj.getCreatorid());
-			}
+//			if (obj.getCreatorid() != null) {
+//				authorids.put(obj.getId(), obj.getCreatorid());
+//			}
 		}
 		List<String> ids = new ArrayList<String>(new HashSet<String>(authorids.values()));
 		if (ids.isEmpty()) {
@@ -359,7 +357,7 @@ public final class ScooldUtils {
 			// not set => read comments if any and embed ids in post object
 			if (post.getCommentIds() == null) {
 				forUpdate.add(reloadFirstPageOfComments(post));
-				allComments.put(post.getId(), post.getComments());
+//				allComments.put(post.getId(), post.getComments());
 			} else {
 				// ids are set => add them to list for bulk read
 				allCommentIds.addAll(post.getCommentIds());
@@ -367,63 +365,63 @@ public final class ScooldUtils {
 		}
 		if (!allCommentIds.isEmpty()) {
 			// read all comments for all posts on page in bulk
-			for (ParaObject comment : pc.readAll(allCommentIds)) {
-				List<Comment> postComments = allComments.get(comment.getParentid());
-				if (postComments == null) {
-					allComments.put(comment.getParentid(), new ArrayList<Comment>());
-				}
-				allComments.get(comment.getParentid()).add((Comment) comment);
-			}
+//			for (ParaObject comment : pc.readAll(allCommentIds)) {
+//				List<Comment> postComments = allComments.get(comment.getParentid());
+//				if (postComments == null) {
+//					allComments.put(comment.getParentid(), new ArrayList<Comment>());
+//				}
+//				allComments.get(comment.getParentid()).add((Comment) comment);
+//			}
 		}
 		// embed comments in each post for use within the view
 		for (Post post : allPosts) {
-			List<Comment> cl = allComments.get(post.getId());
-			long clSize = (cl == null) ? 0 : cl.size();
-			if (post.getCommentIds().size() != clSize) {
-				forUpdate.add(reloadFirstPageOfComments(post));
-				clSize = post.getComments().size();
-			} else {
-				post.setComments(cl);
-			}
-			post.getItemcount().setCount(clSize + 1L); // hack to show the "more" button
+//			List<Comment> cl = allComments.get(post.getId());
+//			long clSize = (cl == null) ? 0 : cl.size();
+//			if (post.getCommentIds().size() != clSize) {
+//				forUpdate.add(reloadFirstPageOfComments(post));
+//				clSize = post.getComments().size();
+//			} else {
+//				post.setComments(cl);
+//			}
+//			post.getItemcount().setCount(clSize + 1L); // hack to show the "more" button
 		}
 		if (!forUpdate.isEmpty()) {
-			pc.updateAll(allPosts);
+//			pc.updateAll(allPosts);
 		}
 	}
 
 	public Post reloadFirstPageOfComments(Post post) {
-		List<Comment> commentz = pc.getChildren(post, Utils.type(Comment.class), post.getItemcount());
-		ArrayList<String> ids = new ArrayList<String>(commentz.size());
-		for (Comment comment : commentz) {
-			ids.add(comment.getId());
-		}
-		post.setCommentIds(ids);
-		post.setComments(commentz);
+//		List<Comment> commentz = pc.getChildren(post, Utils.type(Comment.class), post.getItemcount());
+//		ArrayList<String> ids = new ArrayList<String>(commentz.size());
+//		for (Comment comment : commentz) {
+//			ids.add(comment.getId());
+//		}
+//		post.setCommentIds(ids);
+//		post.setComments(commentz);
 		return post;
 	}
 
 	public void updateViewCount(Post showPost, HttpServletRequest req, HttpServletResponse res) {
 		//do not count views from author
 		if (showPost != null && !isMine(showPost, getAuthUser(req))) {
-			String postviews = HttpUtils.getStateParam("postviews", req);
-			if (!StringUtils.contains(postviews, showPost.getId())) {
-				long views = (showPost.getViewcount() == null) ? 0 : showPost.getViewcount();
-				showPost.setViewcount(views + 1); //increment count
-				HttpUtils.setStateParam("postviews", postviews + "," + showPost.getId(), req, res);
-				pc.update(showPost);
-			}
+//			String postviews = HttpUtils.getStateParam("postviews", req);
+//			if (!StringUtils.contains(postviews, showPost.getId())) {
+//				long views = (showPost.getViewcount() == null) ? 0 : showPost.getViewcount();
+//				showPost.setViewcount(views + 1); //increment count
+//				HttpUtils.setStateParam("postviews", postviews + "," + showPost.getId(), req, res);
+//				pc.update(showPost);
+//			}
 		}
 	}
 
 	public List<Post> getSimilarPosts(Post showPost, Pager pager) {
 		List<Post> similarquestions = Collections.emptyList();
 		if (!showPost.isReply()) {
-			String likeTxt = Utils.abbreviate(Utils.stripAndTrim((showPost.getTitle() + " " + showPost.getBody())), 2000);
-			if (!StringUtils.isBlank(likeTxt)) {
-				similarquestions = pc.findSimilar(showPost.getType(), showPost.getId(),
-						new String[]{"properties.title", "properties.body", "properties.tags"}, likeTxt, pager);
-			}
+//			String likeTxt = Utils.abbreviate(Utils.stripAndTrim((showPost.getTitle() + " " + showPost.getBody())), 2000);
+//			if (!StringUtils.isBlank(likeTxt)) {
+//				similarquestions = pc.findSimilar(showPost.getType(), showPost.getId(),
+//						new String[]{"properties.title", "properties.body", "properties.tags"}, likeTxt, pager);
+//			}
 		}
 		return similarquestions;
 	}
@@ -437,15 +435,18 @@ public final class ScooldUtils {
 	}
 
 	public boolean isAdmin(Profile authUser) {
-		return authUser != null && User.Groups.ADMINS.toString().equals(authUser.getGroups());
+		return false;
+//		return authUser != null && User.Groups.ADMINS.toString().equals(authUser.getGroups());
 	}
 
 	public boolean isMod(Profile authUser) {
-		return authUser != null && (isAdmin(authUser) || User.Groups.MODS.toString().equals(authUser.getGroups()));
+		return false;
+//		return authUser != null && (isAdmin(authUser) || User.Groups.MODS.toString().equals(authUser.getGroups()));
 	}
 
 	public boolean isRecognizedAsAdmin(User u) {
-		return u.isAdmin() || ADMINS.contains(u.getIdentifier()) || ADMINS.contains(u.getEmail());
+		return false;
+//		return u.isAdmin() || ADMINS.contains(u.getIdentifier()) || ADMINS.contains(u.getEmail());
 	}
 
 	public boolean canComment(Profile authUser, HttpServletRequest req) {
@@ -524,7 +525,8 @@ public final class ScooldUtils {
 
 	public boolean isMine(Post showPost, Profile authUser) {
 		// author can edit, mods can edit & ppl with rep > 100 can edit
-		return showPost != null && authUser != null ? authUser.getId().equals(showPost.getCreatorid()) : false;
+		return false;
+//		return showPost != null && authUser != null ? authUser.getId().equals(showPost.getCreatorid()) : false;
 	}
 
 	public boolean canEdit(Post showPost, Profile authUser) {
@@ -556,7 +558,7 @@ public final class ScooldUtils {
 				}
 			}
 			if (!data.isEmpty()) {
-				ParaObjectUtils.setAnnotatedFields(pobj, data, null);
+//				ParaObjectUtils.setAnnotatedFields(pobj, data, null);
 			}
 		}
 		return pobj;
@@ -565,10 +567,10 @@ public final class ScooldUtils {
 	public <P extends ParaObject> Map<String, String> validate(P pobj) {
 		HashMap<String, String> error = new HashMap<String, String>();
 		if (pobj != null) {
-			Set<ConstraintViolation<P>> errors = ValidationUtils.getValidator().validate(pobj);
-			for (ConstraintViolation<P> err : errors) {
-				error.put(err.getPropertyPath().toString(), err.getMessage());
-			}
+//			Set<ConstraintViolation<P>> errors = ValidationUtils.getValidator().validate(pobj);
+//			for (ConstraintViolation<P> err : errors) {
+//				error.put(err.getPropertyPath().toString(), err.getMessage());
+//			}
 		}
 		return error;
 	}
@@ -581,11 +583,12 @@ public final class ScooldUtils {
 	}
 
 	public String getGravatar(Profile profile) {
-		if (profile == null || profile.getUser() == null) {
-			return "https://www.gravatar.com/avatar?d=retro&size=400";
-		} else {
-			return getGravatar(profile.getUser().getEmail());
-		}
+		return null;
+//		if (profile == null || profile.getUser() == null) {
+//			return "https://www.gravatar.com/avatar?d=retro&size=400";
+//		} else {
+//			return getGravatar(profile.getUser().getEmail());
+//		}
 	}
 
 	public void clearSession(HttpServletRequest req, HttpServletResponse res) {
@@ -629,14 +632,14 @@ public final class ScooldUtils {
 	public List<String> checkForBadges(Profile authUser, HttpServletRequest req) {
 		List<String> badgelist = new ArrayList<String>();
 		if (authUser != null && !isAjaxRequest(req)) {
-			long oneYear = authUser.getTimestamp() + (365 * 24 * 60 * 60 * 1000);
-			addBadgeOnce(authUser, Profile.Badge.ENTHUSIAST, authUser.getVotes() >= ENTHUSIAST_IFHAS);
-			addBadgeOnce(authUser, Profile.Badge.FRESHMAN, authUser.getVotes() >= FRESHMAN_IFHAS);
-			addBadgeOnce(authUser, Profile.Badge.SCHOLAR, authUser.getVotes() >= SCHOLAR_IFHAS);
-			addBadgeOnce(authUser, Profile.Badge.TEACHER, authUser.getVotes() >= TEACHER_IFHAS);
-			addBadgeOnce(authUser, Profile.Badge.PROFESSOR, authUser.getVotes() >= PROFESSOR_IFHAS);
-			addBadgeOnce(authUser, Profile.Badge.GEEK, authUser.getVotes() >= GEEK_IFHAS);
-			addBadgeOnce(authUser, Profile.Badge.SENIOR, (System.currentTimeMillis() - authUser.getTimestamp()) >= oneYear);
+//			long oneYear = authUser.getTimestamp() + (365 * 24 * 60 * 60 * 1000);
+//			addBadgeOnce(authUser, Profile.Badge.ENTHUSIAST, authUser.getVotes() >= ENTHUSIAST_IFHAS);
+//			addBadgeOnce(authUser, Profile.Badge.FRESHMAN, authUser.getVotes() >= FRESHMAN_IFHAS);
+//			addBadgeOnce(authUser, Profile.Badge.SCHOLAR, authUser.getVotes() >= SCHOLAR_IFHAS);
+//			addBadgeOnce(authUser, Profile.Badge.TEACHER, authUser.getVotes() >= TEACHER_IFHAS);
+//			addBadgeOnce(authUser, Profile.Badge.PROFESSOR, authUser.getVotes() >= PROFESSOR_IFHAS);
+//			addBadgeOnce(authUser, Profile.Badge.GEEK, authUser.getVotes() >= GEEK_IFHAS);
+//			addBadgeOnce(authUser, Profile.Badge.SENIOR, (System.currentTimeMillis() - authUser.getTimestamp()) >= oneYear);
 
 			if (!StringUtils.isBlank(authUser.getNewbadges())) {
 				badgelist.addAll(Arrays.asList(authUser.getNewbadges().split(",")));

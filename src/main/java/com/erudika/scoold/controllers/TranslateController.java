@@ -17,9 +17,9 @@
  */
 package com.erudika.scoold.controllers;
 
+import com.erudika.para.client.Pager;
 import com.erudika.para.client.ParaClient;
-import com.erudika.para.core.Translation;
-import com.erudika.para.utils.Pager;
+import com.erudika.para.client.Translation;
 import com.erudika.scoold.core.Profile;
 import static com.erudika.scoold.core.Profile.Badge.POLYGLOT;
 import com.erudika.scoold.utils.ScooldUtils;

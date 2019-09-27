@@ -17,13 +17,13 @@
  */
 package com.erudika.scoold.core;
 
-import com.erudika.para.annotations.Stored;
+import com.erudika.para.client.Config;
+import com.erudika.para.client.Pager;
 import com.erudika.para.client.ParaClient;
-import com.erudika.para.core.Sysprop;
-import com.erudika.para.core.User;
-import com.erudika.para.utils.Config;
-import com.erudika.para.utils.Pager;
-import com.erudika.para.utils.Utils;
+import com.erudika.para.client.Stored;
+import com.erudika.para.client.Sysprop;
+import com.erudika.para.client.User;
+import com.erudika.para.client.Utils;
 import com.erudika.scoold.utils.ScooldUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;

@@ -17,9 +17,9 @@
  */
 package com.erudika.scoold.core;
 
-import com.erudika.para.core.Sysprop;
-import com.erudika.para.annotations.Stored;
 import com.erudika.para.client.ParaClient;
+import com.erudika.para.client.Stored;
+import com.erudika.para.client.Sysprop;
 import com.erudika.scoold.utils.ScooldUtils;
 import java.util.Objects;
 

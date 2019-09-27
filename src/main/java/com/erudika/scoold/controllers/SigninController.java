@@ -17,12 +17,13 @@
  */
 package com.erudika.scoold.controllers;
 
-import com.erudika.para.annotations.Email;
+import com.erudika.para.client.Config;
+import com.erudika.para.client.Email;
 import com.erudika.para.client.ParaClient;
-import com.erudika.para.core.Sysprop;
-import com.erudika.para.core.User;
-import com.erudika.para.utils.Config;
-import com.erudika.para.utils.Utils;
+import com.erudika.para.client.Sysprop;
+import com.erudika.para.client.User;
+import com.erudika.para.client.Utils;
+
 import static com.erudika.scoold.ScooldServer.CONTEXT_PATH;
 import static com.erudika.scoold.ScooldServer.CSRF_COOKIE;
 import static com.erudika.scoold.ScooldServer.HOMEPAGE;
@@ -32,6 +33,7 @@ import java.util.Collections;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

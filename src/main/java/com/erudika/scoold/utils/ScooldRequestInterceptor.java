@@ -17,9 +17,10 @@
  */
 package com.erudika.scoold.utils;
 
-import com.erudika.para.utils.Config;
-import com.erudika.para.utils.Utils;
 import static com.erudika.scoold.ScooldServer.*;
+
+import com.erudika.para.client.Config;
+import com.erudika.para.client.Utils;
 import com.erudika.scoold.core.Profile;
 import com.erudika.scoold.core.Report.ReportType;
 import static com.erudika.scoold.utils.HttpUtils.getCookieValue;
@@ -99,7 +100,7 @@ public class ScooldRequestInterceptor extends HandlerInterceptorAdapter {
 		modelAndView.addObject("GOOGLE_ANALYTICS_ID", Config.getConfigParam("google_analytics_id", ""));
 		modelAndView.addObject("includeHighlightJS", Config.getConfigBoolean("code_highlighting_enabled", true));
 		modelAndView.addObject("isAjaxRequest", utils.isAjaxRequest(request));
-		modelAndView.addObject("reportTypes", ReportType.values());
+//		modelAndView.addObject("reportTypes", ReportType.values());  TODO:
 		modelAndView.addObject("returnto", StringUtils.removeStart(request.getRequestURI(), CONTEXT_PATH));
 		// Configurable constants
 		modelAndView.addObject("MAX_TEXT_LENGTH", MAX_TEXT_LENGTH);

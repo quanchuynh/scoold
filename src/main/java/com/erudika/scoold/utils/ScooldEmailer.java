@@ -17,8 +17,6 @@
  */
 package com.erudika.scoold.utils;
 
-import com.erudika.para.email.Emailer;
-import com.erudika.para.utils.Config;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,6 +28,8 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+
+import com.erudika.para.client.Config;
 
 /**
  * A simple JavaMail implementation of {@link Emailer}.

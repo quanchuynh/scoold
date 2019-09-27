@@ -361,4 +361,9 @@ public class Sysprop implements ParaObject, Serializable {
 		return false;
 	}
 
+	public void removeProperty(String name2) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

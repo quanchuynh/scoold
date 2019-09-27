@@ -17,16 +17,16 @@
  */
 package com.erudika.para.client;
 
-//import com.erudika.para.core.App;
-//import com.erudika.para.core.ParaObject;
-//import com.erudika.para.core.utils.ParaObjectUtils;
-//import com.erudika.para.core.Tag;
-//import com.erudika.para.core.User;
+import com.erudika.para.client.App;
+import com.erudika.para.client.ParaObject;
+import com.erudika.para.client.ParaObjectUtils;
+import com.erudika.para.client.Tag;
+import com.erudika.para.client.User;
 //import com.erudika.para.rest.GenericExceptionMapper;
-//import com.erudika.para.rest.Signer;
-//import com.erudika.para.utils.Config;
-//import com.erudika.para.utils.Pager;
-//import com.erudika.para.utils.Utils;
+import com.erudika.para.client.Signer;
+import com.erudika.para.client.Config;
+import com.erudika.para.client.Pager;
+import com.erudika.para.client.Utils;
 //import com.erudika.para.validation.Constraint;
 
 /* */
@@ -97,8 +97,7 @@ public final class ParaClient {
 			logger.warn("Secret key appears to be invalid. Make sure you call 'signIn()' first.");
 		}
 		this.throwExceptionOnHTTPError = false;
-//		ObjectMapper mapper = ParaObjectUtils.getJsonMapper();
-		ObjectMapper mapper = null;
+		ObjectMapper mapper = ParaObjectUtils.getJsonMapper();
 		mapper.setSerializationInclusion(JsonInclude.Include.USE_DEFAULTS);
 		ClientConfig clientConfig = new ClientConfig();
 //		clientConfig.register(GenericExceptionMapper.class);

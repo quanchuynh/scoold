@@ -1,6 +1,7 @@
 package com.erudika.para.client;
 
 import java.util.EnumSet;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -138,5 +139,15 @@ public class App {
 					return this.name();
 			}
 		}
+	}
+
+	public Map<? extends String, ? extends String> getDatatypes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static String id(String appid) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
